@@ -4,125 +4,304 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Axis AutoConnect</title>
-  <meta name="description" content="Axis AutoConnect — Connect Axis College students with local auto drivers for safe, fast commutes."/>
+  <meta name="description" content="Axis AutoConnect — Connect Axis College students with local auto drivers for safe, fast commutes." />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-  <!-- icons & AOS & Lottie -->
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js" defer></script>
 </head>
 <body>
   <header class="site-header">
-    <div class="header-left">
-      <a href="https://axiscolleges.org/" target="_blank" class="brand">
-        <img class="brand-logo" src="https://yt3.googleusercontent.com/75u3CQlxznKsipQB8-fmXMAbzGt7qi-Qlxlm0_k9c1fe72VmrWyMA5qu8ySo_u3cq5SlVMt9FA=s900-c-k-c0x00ffffff-no-rj" alt="Axis Logo">
-        <span>Axis AutoConnect</span>
-      </a>
-    </div>
+    <a class="brand" href="{{ url_for('home') }}">
+      <img class="brand-logo" src="https://yt3.googleusercontent.com/75u3CQlxznKsipQB8-fmXMAbzGt7qi-Qlxlm0_k9c1fe72VmrWyMA5qu8ySo_u3cq5SlVMt9FA=s900-c-k-c0x00ffffff-no-rj" alt="Axis Logo">
+      <div>
+        <strong>Axis AutoConnect</strong>
+        <small>Verified rides for axis students</small>
+      </div>
+    </a>
+
+    <button class="nav-toggle" aria-label="Toggle navigation"><i class="fas fa-bars"></i></button>
+
     <nav class="main-nav">
+      <a href="#home"><i class="fas fa-home"></i> Home</a>
+      <a href="#features"><i class="fas fa-bolt"></i> Features</a>
+      <a href="#gallery"><i class="fas fa-images"></i> Gallery</a>
+      <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
+      <a href="{{ url_for('feedback') }}"><i class="fas fa-comment-dots"></i> Feedback</a>
+      {% if user %}
+        <a href="{{ url_for('dashboard') }}"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+      {% endif %}
+    </nav>
+
+    <div class="nav-actions">
       {% if user %}
         <span class="nav-welcome">Hi, {{ user }}</span>
-        <a href="{{ url_for('logout') }}">Logout</a>
+        <a class="btn-outline" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
       {% else %}
-        <a href="{{ url_for('login') }}"><i class="fas fa-sign-in-alt"></i> Login</a>
-        <a href="{{ url_for('signup') }}"><i class="fas fa-user-plus"></i> Sign up</a>
+        <a class="btn neon" href="{{ url_for('login') }}"><i class="fas fa-sign-in-alt"></i> Login</a>
+        <a class="btn neon" href="{{ url_for('signup') }}"><i class="fas fa-user-plus"></i> Sign up</a>
       {% endif %}
-      <a href="{{ url_for('developer') }}">Developer</a>
-      <a href="{{ url_for('feedback') }}">Feedback</a>
-    </nav>
+    </div>
   </header>
 
   <main class="content">
-    <!-- HERO -->
-    <section class="hero" data-aos="fade-up">
-      <div class="hero-left">
-        <h1 class="neon-title">Connecting Students & Auto Drivers</h1>
-        <p class="lead">Safe. Fast. Verified. Serving Axis Knowledge City, Rooma, Kanpur.</p>
-        <div class="hero-ctas">
-          <a class="btn neon" href="{{ url_for('signup') }}">Get Started</a>
+    <section class="hero" id="home" data-aos="fade-up">
+      <div class="hero-copy">
+        <span class="eyebrow">Safe. Fast. Verified.</span>
+        <h1>Safe, Fast, Verified Rides for Axis Students</h1>
+        <p>Book auto rides for college-to-home travel with verified drivers, live tracking, and student-friendly fares for Axis passengers.</p>
+
+        <div class="hero-actions">
+          <a class="btn neon" href="{{ url_for('onboarding') }}">Get Started</a>
           <a class="btn outline" href="#features">Learn More</a>
+          <a class="btn secondary" href="{{ url_for('feedback') }}">Give Feedback</a>
         </div>
 
-        <div class="impact">
-          <div><strong id="cnt-users">500+</strong><span>students</span></div>
-          <div><strong id="cnt-drivers">40+</strong><span>drivers</span></div>
-          <div><strong id="cnt-rides">3000+</strong><span>rides</span></div>
+        <div class="hero-stats">
+          <div>
+            <span class="stat-number" id="cnt-drivers">0</span>
+            <span>Active Drivers</span>
+          </div>
+          <div>
+            <span class="stat-number" id="cnt-rides">0</span>
+            <span>Rides Completed</span>
+          </div>
+          <div>
+            <span class="stat-number" id="cnt-reviews">0</span>
+            <span>Trusted Reviews</span>
+          </div>
         </div>
+
+        <div class="hero-badge"><i class="fas fa-check-circle"></i> Verified driver ID + admin approval</div>
       </div>
-      <div class="hero-right">
-        <!-- Lottie animation (girl) -->
-        <lottie-player src="https://assets3.lottiefiles.com/packages/lf20_tfb3estd.json"
-                       background="transparent" speed="1" style="width:360px; height:360px;" loop autoplay></lottie-player>
-        <!-- Auto image -->
-        <img class="auto-image" src="https://www.thestatesman.com/wp-content/uploads/2022/07/auto.jpg" alt="Auto rickshaw">
+
+      <div class="hero-visual">
+        <div class="hero-card" data-aos="zoom-in">
+          <lottie-player src="https://assets3.lottiefiles.com/packages/lf20_tfb3estd.json" background="transparent" speed="1" style="width:100%; height:100%;" loop autoplay></lottie-player>
+        </div>
+        <div class="hero-image" data-aos="fade-left">
+          <img src="https://www.shutterstock.com/image-photo/realistic-highresolution-photograph-classic-green-600nw-2636957211.jpg"
+               onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80';"
+               alt="Verified auto ride">
+        </div>
       </div>
     </section>
 
-    <!-- MISSION -->
-    <section id="mission" class="panel" data-aos="fade-right">
-      <h2>Our Mission</h2>
-      <p>To revolutionize everyday campus commutes by providing a verified, reliable and tech-driven way for Axis students to find nearby auto drivers. Built by Axis students for Axis students.</p>
-    </section>
+    <section id="features" class="panel" data-aos="fade-right">
+      <div class="section-header">
+        <span class="eyebrow">Platform features</span>
+        <h2>Everything students need for a smarter college-to-home commute</h2>
+      </div>
 
-    <!-- FEATURES -->
-    <section id="features" class="panel" data-aos="fade-left">
-      <h2>Smart Features</h2>
       <div class="features-grid">
-        <div class="feature-card">
+        <article class="feature-card">
           <i class="fas fa-map-marker-alt"></i>
-          <h3>Real-time Matching</h3>
-          <p>Nearest driver matched instantly using location.</p>
-        </div>
-        <div class="feature-card">
+          <h3>Live GPS Tracking</h3>
+          <p>Follow your driver in real time and arrive with confidence.</p>
+        </article>
+        <article class="feature-card">
           <i class="fas fa-user-check"></i>
-          <h3>Verified Users</h3>
-          <p>College-based signups to keep the community safe.</p>
-        </div>
-        <div class="feature-card">
+          <h3>Verified Drivers</h3>
+          <p>Driver onboarding includes ID verification and admin approval.</p>
+        </article>
+        <article class="feature-card">
           <i class="fas fa-route"></i>
-          <h3>Optimized Routes</h3>
-          <p>Planned routes save time and reduce wait periods.</p>
+          <h3>Route Optimization</h3>
+          <p>Smart routing helps reduce wait times and keeps costs fair.</p>
+        </article>
+        <article class="feature-card">
+          <i class="fas fa-comments-dollar"></i>
+          <h3>Student-first Pricing</h3>
+          <p>Transparent fares built for campus rides and short commutes.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="roadmap" class="panel secondary-panel" data-aos="fade-left">
+      <div class="section-header">
+        <span class="eyebrow">Roadmap</span>
+        <h2>Coming soon for Axis AutoConnect</h2>
+      </div>
+
+      <div class="roadmap-grid">
+        <article class="roadmap-card">
+          <h3>AI Ride Scheduler</h3>
+          <span class="badge">Coming Soon</span>
+          <p>Auto-suggest pickups and optimal booking windows.</p>
+        </article>
+        <article class="roadmap-card">
+          <h3>Voice Booking Assistant</h3>
+          <span class="badge">Coming Soon</span>
+          <p>Book a ride hands-free with voice commands.</p>
+        </article>
+        <article class="roadmap-card">
+          <h3>Predictive ETA</h3>
+          <span class="badge">Coming Soon</span>
+          <p>Know exactly when your driver will arrive.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="gallery" class="panel" data-aos="zoom-in">
+      <div class="section-header">
+        <span class="eyebrow">Gallery</span>
+        <h2>College-to-home rides, drivers, and passenger journeys</h2>
+      </div>
+
+      <div class="gallery-grid">
+        <img loading="lazy" src="https://i.cdn.newsbytesapp.com/images/l321_55071756026018.jpg" alt="Verified auto ride">
+        <img loading="lazy" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSb59fVZdnWrPxtteBwUcdDyc0eGvWZUMEwAQ&s" alt="Student ride">
+        <img loading="lazy" src="https://c8.alamy.com/comp/EAF8FM/school-girls-being-taken-to-school-by-auto-rickshaw-taxi-new-delhi-EAF8FM.jpg" alt="School girls auto ride">
+      </div>
+    </section>
+
+    <section id="developer" class="panel" data-aos="fade-up">
+      <div class="section-header">
+        <span class="eyebrow">Developer</span>
+        <h2>Built to make college-to-home travel convenient for Axis passengers</h2>
+      </div>
+      <p>This project is designed to help students commute between college and home, not for campus-only rides. It is built with passenger convenience in mind.</p>
+      <p>
+        <a class="btn outline" href="{{ url_for('developer') }}">Developer details</a>
+        <a class="btn outline" href="{{ url_for('feedbacks') }}">Stored feedback</a>
+      </p>
+    </section>
+
+    <section id="community" class="panel" data-aos="fade-up">
+      <div class="section-header">
+        <span class="eyebrow">Trust & verification</span>
+        <h2>How we keep every ride secure</h2>
+      </div>
+
+      <div class="community-grid">
+        <div class="community-copy">
+          <p>Every driver is verified with a government ID, college proof, and admin review before they join the platform.</p>
+          <ul class="check-list">
+            <li><i class="fas fa-check-circle"></i> ID verification</li>
+            <li><i class="fas fa-check-circle"></i> Photo & license review</li>
+            <li><i class="fas fa-check-circle"></i> Ride history monitoring</li>
+          </ul>
+        </div>
+
+        <div class="profiles-grid">
+          <article class="profile-card">
+            <img src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=400&q=80" alt="Verified male driver profile">
+            <div>
+              <h3>Raj</h3>
+              <p>Verified Driver</p>
+              <span class="rating"><i class="fas fa-star"></i> 4.9</span>
+            </div>
+          </article>
+          <article class="profile-card">
+            <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=400&q=80" alt="Student profile">
+            <div>
+              <h3>Sneha</h3>
+              <p>Student Passenger</p>
+              <span class="rating"><i class="fas fa-star"></i> 5.0</span>
+            </div>
+          </article>
+          <article class="profile-card">
+            <img src="https://images.yourstory.com/cs/wordpress/2016/07/Untitled-design.jpg?mode=crop&crop=faces&ar=2%3A1&format=auto&w=1920&q=75" alt="Male driver profile">
+            <div>
+              <h3>Amit</h3>
+              <p>Trusted Driver</p>
+              <span class="rating"><i class="fas fa-star"></i> 4.8</span>
+            </div>
+          </article>
         </div>
       </div>
     </section>
 
-    <!-- UPCOMING AI -->
-    <section id="ai" class="panel" data-aos="fade-up">
-      <h2>Upcoming AI Features</h2>
-      <ul class="ai-list" id="ai-list">
-        <li>AI-powered ride scheduling</li>
-        <li>Voice booking assistant</li>
-        <li>Predictive wait time analytics</li>
-        <li>Driver heatmaps</li>
-      </ul>
-    </section>
+    <section id="testimonials" class="panel" data-aos="fade-up">
+      <div class="section-header">
+        <span class="eyebrow">Student reviews</span>
+        <h2>What our Axis community says</h2>
+      </div>
 
-    <!-- GALLERY -->
-    <section id="gallery" class="panel" data-aos="zoom-in">
-      <h2>Gallery</h2>
-      <div class="gallery-grid">
-        <img loading="lazy" src="https://axiscolleges.wordpress.com/wp-content/uploads/2024/06/axis-colleges-1.jpg?w=595" alt="auto 1">
-        <img loading="lazy" src="https://assets.thehansindia.com/h-upload/feeds/2019/07/01/191488-1.jpg" alt="auto 2">
-        <img loading="lazy" src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=900&q=80" alt="students">
+      <div class="testimonials-grid">
+        <article class="testimonial-card">
+          <p>"Axis AutoConnect makes campus travel so much easier. The drivers are trustworthy and the booking is smooth."</p>
+          <strong>Riya, Axis Student</strong>
+        </article>
+        <article class="testimonial-card">
+          <p>"I love the verification process. I always know my ride is safe and the driver is approved."</p>
+          <strong>Manish, Auto Driver</strong>
+        </article>
+        <article class="testimonial-card">
+          <p>"Fast, reliable, and affordable. The ride tracker is a game changer for late-night campus trips."</p>
+          <strong>Sneha, Axis Student</strong>
+        </article>
       </div>
     </section>
 
+    <section id="contact" class="panel contact-panel" data-aos="fade-up">
+      <div class="section-header">
+        <span class="eyebrow">Contact us</span>
+        <h2>Questions? Feedback? Let’s connect.</h2>
+      </div>
+
+      <div class="contact-grid">
+        <div class="contact-copy">
+          <p>Reach out to the Axis AutoConnect team for support, driver sign up, or partnership inquiries.</p>
+          <div class="contact-item"><i class="fas fa-phone-alt"></i> +91 98765 43210</div>
+          <div class="contact-item"><i class="fas fa-envelope"></i> support@axisautoconnect.com</div>
+          <div class="contact-item"><i class="fas fa-map-marker-alt"></i> Axis Knowledge City, Rooma, Kanpur</div>
+          <div class="social-icons">
+            <a href="#"><img src="{{ url_for('static', filename='image/facebook.svg') }}" alt="Facebook"></a>
+            <a href="#"><img src="{{ url_for('static', filename='image/instagram.svg') }}" alt="Instagram"></a>
+            <a href="#"><img src="{{ url_for('static', filename='image/linkedin.svg') }}" alt="LinkedIn"></a>
+            <a href="https://axiscolleges.org/" target="_blank"><img src="{{ url_for('static', filename='image/university.svg') }}" alt="Axis Colleges"></a>
+          </div>
+        </div>
+
+        <form class="contact-form" action="{{ url_for('feedback') }}" method="POST">
+          <label>Name</label>
+          <input name="name" type="text" placeholder="Your name" required>
+          <label>Email</label>
+          <input name="email" type="email" placeholder="Your email">
+          <label>Role</label>
+          <select name="role">
+            <option value="student">Student</option>
+            <option value="driver">Driver</option>
+            <option value="other">Other</option>
+          </select>
+          <label>Message</label>
+          <textarea name="message" rows="4" placeholder="Your message"></textarea>
+          <button class="btn neon" type="submit">Send Message</button>
+        </form>
+      </div>
+    </section>
   </main>
 
-  <!-- FOOTER -->
-  <footer class="site-footer" id="footer">
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <img src="https://yt3.googleusercontent.com/75u3CQlxznKsipQB8-fmXMAbzGt7qi-Qlxlm0_k9c1fe72VmrWyMA5qu8ySo_u3cq5SlVMt9FA=s900-c-k-c0x00ffffff-no-rj" alt="Axis Logo">
-        <p>Axis AutoConnect — Student initiative</p>
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div>
+        <strong>Axis AutoConnect</strong>
+        <p>Connecting Axis students with trusted auto drivers for college-to-home travel.</p>
       </div>
-      <div class="footer-links">
-        <a href="https://axiscolleges.org/" target="_blank">Axis Colleges</a>
-        <a href="{{ url_for('developer') }}">Developer</a>
-        <a href="{{ url_for('feedback') }}">Feedback</a>
+      <div>
+        <h4>Quick Links</h4>
+        <a href="#home">Home</a>
+        <a href="#features">Features</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <a href="{{ url_for('privacy_policy') }}">Privacy Policy</a>
+        <a href="{{ url_for('terms_of_service') }}">Terms</a>
+      </div>
+      <div>
+        <h4>Social</h4>
+        <div class="social-icons footer-social">
+          <a href="#"><img src="{{ url_for('static', filename='image/facebook.svg') }}" alt="Facebook"></a>
+          <a href="#"><img src="{{ url_for('static', filename='image/twitter.svg') }}" alt="Twitter"></a>
+          <a href="#"><img src="{{ url_for('static', filename='image/instagram.svg') }}" alt="Instagram"></a>
+          <a href="https://axiscolleges.org/" target="_blank"><img src="{{ url_for('static', filename='image/university.svg') }}" alt="Axis Colleges"></a>
+        </div>
+        <a class="footer-link" href="https://axiscolleges.org/" target="_blank">Axis Colleges</a>
       </div>
     </div>
-    <div class="footer-animated">&nbsp;</div>
   </footer>
 
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>

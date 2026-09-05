@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Feedback Submissions - Axis AutoConnect</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+  <main class="panel feedback-list" data-aos="fade-up">
+    <h2>Submitted Feedback</h2>
+    {% if feedbacks %}
+      <p>{{ feedbacks|length }} submission{{ 's' if feedbacks|length != 1 else '' }} found.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Rating</th>
+            <th>Message</th>
+            <th>Timestamp</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in feedbacks %}
+          <tr>
+            <td>{{ item.name or '—' }}</td>
+            <td>{{ item.email or '—' }}</td>
+            <td>{{ item.role or '—' }}</td>
+            <td>{{ item.rating or '—' }}</td>
+            <td>{{ item.message or '—' }}</td>
+            <td>{{ item.timestamp or '—' }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>No feedback submissions have been received yet.</p>
+    {% endif %}
+    <p><a href="{{ url_for('home') }}">Back to Home</a></p>
+  </main>
+</body>
+</html>

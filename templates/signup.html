@@ -1,23 +1,52 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Sign Up - Axis AutoConnect</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
-<body>
-  <div class="auth-wrap" data-aos="zoom-in">
-    <form method="POST" action="{{ url_for('signup') }}" class="auth-card">
-      <h2>Sign Up</h2>
+<body class="auth-page">
+  <div class="auth-grid">
+    <section class="auth-side" data-aos="fade-right">
+      <div class="auth-brand">
+        <strong>Axis AutoConnect</strong>
+        <p>Verified student rides in one secure platform.</p>
+      </div>
+      <h1>Join the community.</h1>
+      <p>Create your account and connect with trusted auto drivers, secure your college commute, and share feedback that improves every ride.</p>
+      <ul class="auth-features">
+        <li><i class="fas fa-check-circle"></i> Verified drivers and safer routes</li>
+        <li><i class="fas fa-check-circle"></i> Student-first booking experience</li>
+        <li><i class="fas fa-check-circle"></i> Transparent ride support</li>
+      </ul>
+    </section>
+
+    <form method="POST" action="{{ url_for('signup') }}" class="auth-card" data-aos="fade-left">
+      <div class="auth-card-header">
+        <span class="eyebrow">Create account</span>
+        <h2>Sign up for Axis AutoConnect</h2>
+        <p>Choose your role and start booking or driving safely today.</p>
+      </div>
+
       {% if error %}<p class="error">{{ error }}</p>{% endif %}
+      <div class="social-auth">
+        <button type="button" class="btn social google">Continue with Google</button>
+        <button type="button" class="btn social microsoft">Continue with Microsoft</button>
+      </div>
+      <p class="muted small">Use your college email for faster verification and safer rides.</p>
+      <label>Email</label>
       <input name="email" type="email" placeholder="Email (college preferred)" required>
+      <label>Password</label>
       <input name="password" type="password" placeholder="Create password" required>
+      <label>Account type</label>
       <select name="role" required>
         <option value="student">Student</option>
         <option value="driver">Driver</option>
       </select>
       <button class="btn neon">Create account</button>
-      <p class="muted">Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
+      <p class="muted">Already registered? <a href="{{ url_for('login') }}">Login</a></p>
     </form>
   </div>
 </body>

@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Onboarding - Axis AutoConnect</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body class="auth-page onboarding-page">
+  <div class="onboarding-grid">
+    <section class="onboarding-panel">
+      <div class="section-header">
+        <span class="eyebrow">Onboarding</span>
+        <h1>Get started with trusted Axis rides.</h1>
+        <p>Learn how Axis AutoConnect helps students book verified auto rides with real-time tracking and a simple booking flow.</p>
+      </div>
+
+      <div class="onboarding-slides">
+        <article class="onboarding-slide active" data-index="0">
+          <div class="slide-icon">1</div>
+          <h2>Verified drivers</h2>
+          <p>All drivers are approved through ID checks and admin review so every ride starts with trust.</p>
+        </article>
+        <article class="onboarding-slide" data-index="1">
+          <div class="slide-icon">2</div>
+          <h2>Real-time GPS tracking</h2>
+          <p>Follow your driver live during pickup and arrival so you always know when your ride will reach you.</p>
+        </article>
+        <article class="onboarding-slide" data-index="2">
+          <div class="slide-icon">3</div>
+          <h2>Easy ride booking</h2>
+          <p>Select pickup and drop-off points, review fare estimates, and confirm your ride in seconds.</p>
+        </article>
+      </div>
+
+      <div class="slide-footer">
+        <div class="slide-progress" id="slideProgress">1 / 3</div>
+        <div class="slide-controls">
+          <button id="prevSlide" class="btn outline" type="button" disabled>Back</button>
+          <button id="nextSlide" class="btn neon" type="button">Next</button>
+        </div>
+      </div>
+    </section>
+
+    <aside class="onboarding-summary">
+      <div class="summary-card">
+        <span class="eyebrow">Your path</span>
+        <h2>Ready to join Axis?</h2>
+        <p>Complete a quick sign-up and unlock student-friendly rides, driver verification, and ride history in one dashboard.</p>
+        <a class="btn neon" href="{{ url_for('signup') }}">Create account</a>
+        <a class="btn outline" href="{{ url_for('login') }}">Already have an account?</a>
+      </div>
+    </aside>
+  </div>
+
+  <script>
+    const slides = document.querySelectorAll('.onboarding-slide');
+    const prevButton = document.getElementById('prevSlide');
+    const nextButton = document.getElementById('nextSlide');
+    const progress = document.getElementById('slideProgress');
+    let currentIndex = 0;
+
+    const updateSlides = () => {
+      slides.forEach((slide, index) => {
+        slide.classList.toggle('active', index === currentIndex);
+      });
+      progress.textContent = `${currentIndex + 1} / ${slides.length}`;
+      prevButton.disabled = currentIndex === 0;
+      nextButton.textContent = currentIndex === slides.length - 1 ? 'Continue' : 'Next';
+    };
+
+    prevButton.addEventListener('click', () => {
+      if (currentIndex > 0) {
+        currentIndex -= 1;
+        updateSlides();
+      }
+    });
+
+    nextButton.addEventListener('click', () => {
+      if (currentIndex < slides.length - 1) {
+        currentIndex += 1;
+        updateSlides();
+      } else {
+        window.location.href = '{{ url_for('signup') }}';
+      }
+    });
+  </script>
+</body>
+</html>

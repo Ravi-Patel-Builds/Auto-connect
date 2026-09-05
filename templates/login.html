@@ -1,19 +1,47 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Login - Axis AutoConnect</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
-<body>
-  <div class="auth-wrap" data-aos="zoom-in">
-    <form method="POST" action="{{ url_for('login') }}" class="auth-card">
-      <h2>Login</h2>
+<body class="auth-page">
+  <div class="auth-grid">
+    <section class="auth-side" data-aos="fade-right">
+      <div class="auth-brand">
+        <strong>Axis AutoConnect</strong>
+        <p>Fast, verified rides for Axis students.</p>
+      </div>
+      <h1>Welcome back.</h1>
+      <p>Log in to continue booking trusted auto rides and stay connected with verified drivers for your campus commute.</p>
+      <ul class="auth-features">
+        <li><i class="fas fa-check-circle"></i> Secure student and driver accounts</li>
+        <li><i class="fas fa-check-circle"></i> Verified drivers only</li>
+        <li><i class="fas fa-check-circle"></i> Quick access to feedback and support</li>
+      </ul>
+    </section>
+
+    <form method="POST" action="{{ url_for('login') }}" class="auth-card" data-aos="fade-left">
+      <div class="auth-card-header">
+        <span class="eyebrow">Sign in</span>
+        <h2>Login to Axis AutoConnect</h2>
+        <p>Use your student or driver credentials to access the platform.</p>
+      </div>
+
       {% if error %}<p class="error">{{ error }}</p>{% endif %}
+      <div class="social-auth">
+        <button type="button" class="btn social google">Continue with Google</button>
+        <button type="button" class="btn social microsoft">Continue with Microsoft</button>
+      </div>
+      <p class="muted small">College email verification is recommended for Axis students.</p>
+      <label>Email</label>
       <input name="email" type="email" placeholder="Email" required>
+      <label>Password</label>
       <input name="password" type="password" placeholder="Password" required>
       <button class="btn neon">Login</button>
-      <p class="muted">Don't have an account? <a href="{{ url_for('signup') }}">Sign up</a></p>
+      <p class="muted">New here? <a href="{{ url_for('signup') }}">Create your account</a></p>
     </form>
   </div>
 </body>

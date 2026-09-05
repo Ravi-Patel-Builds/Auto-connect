@@ -1,32 +1,50 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Feedback - Axis AutoConnect</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
   <main class="feedback-page" data-aos="fade-up">
-    <h2>Send Feedback</h2>
-    <form id="feedbackForm" method="POST" action="{{ url_for('feedback') }}">
-      <input name="name" type="text" placeholder="Name" required>
-      <input name="email" type="email" placeholder="Email (optional)">
-      <select name="role">
-        <option value="student">Student</option>
-        <option value="driver">Driver</option>
-        <option value="other">Other</option>
-      </select>
-      <textarea name="message" placeholder="Your feedback" required></textarea>
-      <select name="rating">
-        <option value="5">5 ★</option><option value="4">4 ★</option><option value="3">3 ★</option>
-        <option value="2">2 ★</option><option value="1">1 ★</option>
-      </select>
-      <button type="submit" class="btn neon">Submit</button>
-    </form>
+    <div class="panel" style="max-width:680px; margin: 32px auto;">
+      <span class="eyebrow">Feedback</span>
+      <h2>Share your experience with Axis AutoConnect</h2>
+      <p>Tell us what you love, what can improve, or how your driver performed.</p>
+
+      <form id="feedbackForm" method="POST" action="{{ url_for('feedback') }}" class="contact-form">
+        <label>Name</label>
+        <input name="name" type="text" placeholder="Your name" required>
+
+        <label>Email</label>
+        <input name="email" type="email" placeholder="Your email (optional)">
+
+        <label>Role</label>
+        <select name="role">
+          <option value="student">Student</option>
+          <option value="driver">Driver</option>
+          <option value="other">Other</option>
+        </select>
+
+        <label>Rating</label>
+        <div class="rating-select">
+          <label><input type="radio" name="rating" value="5" checked><span>5 ★</span></label>
+          <label><input type="radio" name="rating" value="4"><span>4 ★</span></label>
+          <label><input type="radio" name="rating" value="3"><span>3 ★</span></label>
+          <label><input type="radio" name="rating" value="2"><span>2 ★</span></label>
+          <label><input type="radio" name="rating" value="1"><span>1 ★</span></label>
+        </div>
+
+        <label>Message</label>
+        <textarea name="message" rows="6" placeholder="Your feedback" required></textarea>
+
+        <button type="submit" class="btn neon">Submit Feedback</button>
+      </form>
+    </div>
   </main>
-  <script>
-    // the form does POST and returns JSON if using AJAX; server will handle normal POST redirect
-  </script>
+
+  <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 </body>
 </html>
 

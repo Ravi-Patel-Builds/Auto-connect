@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Booking - Axis AutoConnect</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="{{ url_for('home') }}">
+      <div>
+        <strong>Axis AutoConnect</strong>
+        <small>Ride booking</small>
+      </div>
+    </a>
+    <nav class="main-nav">
+      <a href="{{ url_for('dashboard') }}">Dashboard</a>
+      <a href="{{ url_for('home') }}">Home</a>
+      <a href="{{ url_for('logout') }}">Logout</a>
+    </nav>
+  </header>
+
+  <main class="content">
+    <section class="panel">
+      <div class="section-header">
+        <span class="eyebrow">Booking</span>
+        <h1>{% if role == 'student' %}Student ride booking{% else %}Driver request board{% endif %}</h1>
+        <p>{% if role == 'student' %}Choose a route, select a driver, and confirm your ride.{% else %}Accept a student request and schedule the trip.{% endif %}</p>
+      </div>
+
+      {% if message %}
+        <div class="notification success">{{ message }}</div>
+      {% endif %}
+
+      {% if booking %}
+        <div class="booking-confirmation">
+          <h2>Booking confirmed</h2>
+          <p><strong>Route:</strong> {{ booking.route }}</p>
+          {% if role == 'student' %}
+            <p><strong>Driver:</strong> {{ booking.driver }} ({{ booking.auto_number }})</p>
+            <p><strong>Fare:</strong> ₹{{ booking.fare }}</p>
+          {% else %}
+            <p><strong>Passenger:</strong> {{ booking.passenger }} ({{ booking.roll_no }})</p>
+            <p><strong>Fare:</strong> ₹{{ booking.fare }}</p>
+          {% endif %}
+          <a class="btn neon" href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+        </div>
+      {% else %}
+        <div class="booking-card">
+          <form method="POST">
+            {% if role == 'student' %}
+              <label>Select route</label>
+              <select id="routeSelect" name="route_id" required>
+                <option value="">Choose route</option>
+                {% for route in routes %}
+                  <option value="{{ route.id }}">{{ route.name }} — ₹{{ route.fare }}</option>
+                {% endfor %}
+              </select>
+
+              <label>Pickup point</label>
+              <input name="pickup" type="text" placeholder="Pickup location" value="Axis College" required>
+              <label>Drop-off point</label>
+              <input name="dropoff" type="text" placeholder="Drop-off location" required>
+
+              <label>Select driver</label>
+              <select id="driverSelect" name="driver_id" required>
+                <option value="">Choose driver</option>
+                {% for driver in drivers %}
+                  <option value="{{ driver.id }}" data-routes="{{ driver.routes | join(',') }}">{{ driver.name }} — {{ driver.auto_number }} — Rating {{ driver.rating }}</option>
+                {% endfor %}
+              </select>
+
+              <button class="btn neon" type="submit">Confirm booking</button>
+            {% else %}
+              {% if passengers %}
+                <label>Select student request</label>
+                <select name="passenger_id" required>
+                  <option value="">Choose passenger</option>
+                  {% for passenger in passengers %}
+                    <option value="{{ passenger.id }}">{{ passenger.name }} — {{ passenger.pickup }} → {{ passenger.dropoff }} ({{ passenger.notes }})</option>
+                  {% endfor %}
+                </select>
+
+                <label>Choose your driver profile</label>
+                <select name="driver_id" required>
+                  <option value="">Choose driver</option>
+                  {% for driver in drivers %}
+                    <option value="{{ driver.id }}">{{ driver.name }} — {{ driver.auto_number }} — Rating {{ driver.rating }}</option>
+                  {% endfor %}
+                </select>
+
+                <button class="btn neon" type="submit">Accept ride request</button>
+              {% else %}
+                <p>No student requests available right now. Check back soon.</p>
+              {% endif %}
+            {% endif %}
+          </form>
+        </div>
+      {% endif %}
+    </section>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const routeSelect = document.getElementById('routeSelect');
+      const driverSelect = document.getElementById('driverSelect');
+      if (!routeSelect || !driverSelect) return;
+      const driverOptions = Array.from(driverSelect.querySelectorAll('option'));
+
+      routeSelect.addEventListener('change', () => {
+        const selectedRoute = routeSelect.value;
+        driverSelect.innerHTML = '<option value="">Choose driver</option>';
+        driverOptions.forEach(option => {
+          if (!option.value) return;
+          const routes = option.dataset.routes.split(',');
+          if (routes.includes(selectedRoute)) {
+            driverSelect.appendChild(option.cloneNode(true));
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard - Axis AutoConnect</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="{{ url_for('home') }}">
+      <div>
+        <strong>Axis AutoConnect</strong>
+        <small>Verified rides for students</small>
+      </div>
+    </a>
+    <nav class="main-nav">
+      <a href="{{ url_for('home') }}">Home</a>
+      <a href="{{ url_for('dashboard') }}">Dashboard</a>
+      <a href="{{ url_for('logout') }}">Logout</a>
+    </nav>
+  </header>
+
+  <main class="content">
+    <section class="panel">
+      <div class="section-header">
+        <span class="eyebrow">Dashboard</span>
+        <h1>Welcome back, {{ user.split('@')[0] }}.</h1>
+        <p>Here is your {{ role }} workspace. Use it to find rides, manage requests, and keep your commute moving smoothly.</p>
+      </div>
+    </section>
+
+    {% if role == 'student' %}
+      <section class="panel">
+        <div class="section-header">
+          <span class="eyebrow">Student ride hub</span>
+          <h2>Available drivers and routes</h2>
+        </div>
+
+        <div class="dashboard-grid">
+          {% for item in route_availability %}
+            <article class="stat-card">
+              <h3>{{ item.route.name }}</h3>
+              <p>{{ item.route.pickup }} to {{ item.route.dropoff }}</p>
+              <strong>{{ item.driver_count }} drivers</strong>
+              <span>{{ item.passenger_count }} student requests</span>
+            </article>
+          {% endfor %}
+        </div>
+
+        <div class="dashboard-panel">
+          <h3>Driver details</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Name</th><th>Auto no.</th><th>Phone</th><th>Rating</th><th>Routes</th></tr>
+              </thead>
+              <tbody>
+                {% for driver in drivers %}
+                <tr>
+                  <td>{{ driver.name }}</td>
+                  <td>{{ driver.auto_number }}</td>
+                  <td>{{ driver.phone }}</td>
+                  <td>{{ driver.rating }}</td>
+                  <td>{{ driver.routes | join(', ') }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <a class="btn neon" href="{{ url_for('book') }}">Book a Ride</a>
+        </div>
+      </section>
+    {% else %}
+      <section class="panel">
+        <div class="section-header">
+          <span class="eyebrow">Driver ride hub</span>
+          <h2>Student ride requests</h2>
+        </div>
+
+        <div class="dashboard-grid">
+          {% for item in route_availability %}
+            <article class="stat-card">
+              <h3>{{ item.route.name }}</h3>
+              <p>{{ item.driver_count }} drivers available</p>
+              <span>{{ item.passenger_count }} waiting requests</span>
+            </article>
+          {% endfor %}
+        </div>
+
+        <div class="dashboard-panel">
+          <h3>Passenger details</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Name</th><th>Roll no.</th><th>Phone</th><th>Route</th><th>Notes</th></tr>
+              </thead>
+              <tbody>
+                {% for passenger in passengers %}
+                <tr>
+                  <td>{{ passenger.name }}</td>
+                  <td>{{ passenger.roll_no }}</td>
+                  <td>{{ passenger.phone }}</td>
+                  <td>{{ passenger.pickup }} → {{ passenger.dropoff }}</td>
+                  <td>{{ passenger.notes }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <a class="btn neon" href="{{ url_for('book') }}">View Ride Requests</a>
+        </div>
+      </section>
+    {% endif %}
+  </main>
+</body>
+</html>
